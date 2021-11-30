@@ -5,7 +5,7 @@ using System.IO;
 
 public class ModularColorChanger : MonoBehaviour
 {
-    
+
     public Color colorPicker;
     List<Color> colors;
     public string saveFolder;
@@ -14,17 +14,28 @@ public class ModularColorChanger : MonoBehaviour
     public int startY;
     public int zoneWidth;
     public int zoneHeight;
-    
+
     Texture2D tex = null;
+
+    public List<ModularColorTile> colorTiles = new List<ModularColorTile>();
+
+    struct ModularColorTile()
+    {
+        public string tileName;
+        public Texture texture;
+        public Vector2 startPosition;
+        public Vector2 size;
+        public Color color;
+    }
 
 
     public void setColour()
     {
-         CreateTexture(colorPicker, zoneWidth, zoneHeight);
-         }
+        CreateTexture(colorPicker, zoneWidth, zoneHeight);
+    }
+
     void CreateTexture(Color colorChoice, int zonewidth, int zoneheight)
     {
-
         Color[] colors = new Color[zoneHeight*zoneWidth];
         for (int i = 0; i < zoneHeight * zoneWidth; i++)
         {
@@ -40,6 +51,4 @@ public class ModularColorChanger : MonoBehaviour
         //write the actual file
         File.WriteAllBytes(iconPath, bytes);
     }
-
-
 }
