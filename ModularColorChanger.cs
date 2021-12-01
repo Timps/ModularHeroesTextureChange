@@ -19,7 +19,7 @@ public class ModularColorChanger : MonoBehaviour
 
     public List<ModularColorTile> colorTiles = new List<ModularColorTile>();
 
-    struct ModularColorTile
+    public struct ModularColorTile
     {
         public string tileName;
         public Texture texture;
