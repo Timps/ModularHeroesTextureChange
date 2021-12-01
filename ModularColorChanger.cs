@@ -19,7 +19,7 @@ public class ModularColorChanger : MonoBehaviour
 
     public List<ModularColorTile> colorTiles = new List<ModularColorTile>();
 
-    struct ModularColorTile()
+    struct ModularColorTile
     {
         public string tileName;
         public Texture texture;
@@ -30,13 +30,13 @@ public class ModularColorChanger : MonoBehaviour
 
     public void LoopThroughTiles()
     {
-        foreach (ModularColorTile tile in colorTiles)
+        foreach (ColorTile tile in colorTiles)
         {
-        
+            CreateTexture(tile.color, (int)tile.size.x, (int)tile.size.y);
         }
     }
 
-    public void SetColour()
+public void SetColour()
     {
         CreateTexture(colorPicker, zoneWidth, zoneHeight);
     }
