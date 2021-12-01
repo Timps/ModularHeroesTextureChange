@@ -28,8 +28,15 @@ public class ModularColorChanger : MonoBehaviour
         public Color color;
     }
 
+    public void LoopThroughTiles()
+    {
+        foreach (ModularColorTile tile in colorTiles)
+        {
+        
+        }
+    }
 
-    public void setColour()
+    public void SetColour()
     {
         CreateTexture(colorPicker, zoneWidth, zoneHeight);
     }
