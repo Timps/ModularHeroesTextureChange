@@ -108,7 +108,7 @@ public void SetColour()
 
     void MHSampleData()
     {
-      
+        colorTiles.Clear();
         colorTiles.Add(new ModularColorTile("Primary", EditTexture, new Vector2(268, 355), new Vector2(60, 60), new Color(0.6f, 0.3f, 0.2f)));
         colorTiles.Add(new ModularColorTile("Secondary", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.9f, 0.1f, 0.7f)));
         colorTiles.Add(new ModularColorTile("Leather Primary", EditTexture, new Vector2(318, 355), new Vector2(60, 60), new Color(0.9f, 0.3f, 0.4f)));
