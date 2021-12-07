@@ -32,10 +32,12 @@ public class ModularColorChanger : EditorWindow
 
         }
         GUILayout.EndHorizontal();
-        foreach (ModularColorTile tile in colorTiles)
+
+        for (int i = 0; i < colorTiles.Count; i++)
         {
-            GUILayout.Label(tile.tileName, EditorStyles.boldLabel);
-            EditorGUILayout.ColorField(tile.tileName, tile.color);
+            GUILayout.Label(colorTiles[i].tileName, EditorStyles.boldLabel);
+            colorTiles[i].color = EditorGUILayout.ColorField(colorTiles[i].tileName,
+            colorTiles[i].color);
         }
 
     }
@@ -54,7 +56,7 @@ public class ModularColorChanger : EditorWindow
 
     public List<ModularColorTile> colorTiles = new List<ModularColorTile>();
 
-    public struct ModularColorTile
+    public class ModularColorTile
     {
         public string tileName;
         public Texture texture;
