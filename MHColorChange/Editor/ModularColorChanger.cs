@@ -22,13 +22,20 @@ public class ModularColorChanger : EditorWindow
         GUILayout.Label("Modular Heroes Colours", EditorStyles.boldLabel);
         GUILayout.Label("Change colours of the Synty Modular Heroes texture for use with other shaders");
         GUILayout.BeginHorizontal("box");
+
+        if (GUILayout.Button("Load Modular Hero Defaults", GUILayout.Width(189)))
+        {
+            MHSampleData();
+        }
         if (GUILayout.Button("Set Colours", GUILayout.Width(189)))
         {
 
         }
+        GUILayout.EndHorizontal();
         foreach (ModularColorTile tile in colorTiles)
         {
-            GUILayout.Label("Colours", EditorStyles.boldLabel);
+            GUILayout.Label(tile.tileName, EditorStyles.boldLabel);
+            EditorGUILayout.ColorField(tile.tileName, tile.color);
         }
 
     }
@@ -41,6 +48,7 @@ public class ModularColorChanger : EditorWindow
     public int startY;
     public int zoneWidth;
     public int zoneHeight;
+    public Texture EditTexture;
 
     Texture2D tex = null;
 
@@ -53,7 +61,19 @@ public class ModularColorChanger : EditorWindow
         public Vector2 startPosition;
         public Vector2 size;
         public Color color;
+
+
+        public ModularColorTile(string theTile, Texture theTexture, Vector2 theStart, Vector2 theSize, Color theColor)
+        {
+            tileName = theTile;
+            texture = theTexture;
+            startPosition = theStart;
+            size = theSize;
+            color = theColor;
+        }
     }
+
+    
 
     public void LoopThroughTiles()
     {
@@ -84,5 +104,24 @@ public void SetColour()
         var iconPath = $"{saveFolder}/666.png";
         //write the actual file
         File.WriteAllBytes(iconPath, bytes);
+    }
+
+    void MHSampleData()
+    {
+      
+        colorTiles.Add(new ModularColorTile("Primary", EditTexture, new Vector2(268, 355), new Vector2(60, 60), new Color(0.6f, 0.3f, 0.2f)));
+        colorTiles.Add(new ModularColorTile("Secondary", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.9f, 0.1f, 0.7f)));
+        colorTiles.Add(new ModularColorTile("Leather Primary", EditTexture, new Vector2(318, 355), new Vector2(60, 60), new Color(0.9f, 0.3f, 0.4f)));
+        colorTiles.Add(new ModularColorTile("Metal Primary", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.9f, 0.2f, 0.7f)));
+        colorTiles.Add(new ModularColorTile("Leather Secondary", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.9f, 0.9f, 0.1f)));
+        colorTiles.Add(new ModularColorTile("Metal Dark", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.9f, 0.3f, 0.9f)));
+        colorTiles.Add(new ModularColorTile("Metal Secondary", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.9f, 0.1f, 0.6f)));
+        colorTiles.Add(new ModularColorTile("Hair", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.9f, 0.2f, 0.1f)));
+        colorTiles.Add(new ModularColorTile("Skin", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.8f, 0.1f, 0.2f)));
+        colorTiles.Add(new ModularColorTile("Stubble", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.4f, 0.1f, 0.3f)));
+        colorTiles.Add(new ModularColorTile("Scar", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.7f, 0.2f, 0.4f)));
+        colorTiles.Add(new ModularColorTile("Body art", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.2f, 0.7f, 0.5f)));
+        colorTiles.Add(new ModularColorTile("Eyes", EditTexture, new Vector2(328, 355), new Vector2(60, 60), new Color(0.1f, 0.3f, 0.5f)));
+
     }
 }
