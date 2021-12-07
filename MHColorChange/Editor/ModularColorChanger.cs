@@ -31,6 +31,8 @@ public class ModularColorChanger : EditorWindow
         {
 
         }
+
+        theTexture = (Texture)EditorGUILayout.ObjectField(theTexture, typeof(Texture), true);
         GUILayout.EndHorizontal();
 
         for (int i = 0; i < colorTiles.Count; i++)
