@@ -4,45 +4,78 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 
-public class ModularColorChanger : EditorWindow
+public class ModularColorChange : EditorWindow
 {
+
+    public Color colorPicker;
+    List<Color> colors;
+    public string saveFolder = "_ModularTextures";
+    public Texture theTexture;
+    public Texture EditTexture;
+    string originalFileName;
+    string newFileName = "_MHTexture";
+    Texture2D tex;
+
+
+
+    public List<ModularColorTile> colorTiles = new List<ModularColorTile>();
+
+    public class ModularColorTile
+    {
+        public string tileName;
+        public Texture texture;
+        public Vector2 startPosition;
+        public Vector2 size;
+        public Color color;
+
+
+
+        public ModularColorTile(string theTile, Texture theTexture, Vector2 theStart, Vector2 theSize, Color theColor)
+        {
+            tileName = theTile;
+            texture = theTexture;
+            startPosition = theStart;
+            size = theSize;
+            color = theColor;
+        }
+    }
+
+
+
+
     [MenuItem("Tools/GameDevBits/Modular Heroes colour change")]
     public static void ShowWindow()
     {
         Vector2 dockWindow = new Vector2(500, 260);
         //Show existing window instance. If one doesn't exist, make one.
-        var window = EditorWindow.GetWindow(typeof(ModularColorChanger));
+        var window = EditorWindow.GetWindow(typeof(ModularColorChange));
         window.minSize = dockWindow;
     }
 
 
     void OnGUI()
     {
-        GUILayout.Label("Modular Heroes Colours", EditorStyles.boldLabel);
+        GUILayout.Label("Modular Heroes Colour Changer", EditorStyles.boldLabel);
         GUILayout.Label("Change colours of the Synty Modular Heroes texture for use with other shaders");
         if (GUILayout.Button("Set Colours", GUILayout.Width(290), GUILayout.Height(50)))
         {
             
             string texturePath = AssetDatabase.GetAssetPath(theTexture);
-            Debug.Log($"{texturePath}");
             string texturePathWithoutExtension = Path.GetFileNameWithoutExtension(texturePath);
-            Debug.Log($"Without extension : {texturePathWithoutExtension}");
+            Debug.Log("Texture path is: " + texturePathWithoutExtension);
             int pos = texturePath.LastIndexOf("/") + 1;
-            originalFileName = texturePath.Substring(pos, texturePathWithoutExtension.Length - pos);
+            originalFileName = texturePathWithoutExtension;
             string originalFolder = texturePath.Substring(0, pos - 1);
-            LoopThroughTiles();
-            //Debug.Log(originalFileName);
-            //Debug.Log(originalFolder);
-
-        }
+            RunTextureProcess();
+            }
         
-        GUILayout.BeginHorizontal("wrapper", GUILayout.Width(380));
-        GUILayout.BeginVertical("texturebox");
+        GUILayout.BeginHorizontal(GUILayout.Width(380));
+        GUILayout.BeginVertical();
         theTexture = (Texture)EditorGUILayout.ObjectField(theTexture, typeof(Texture), true, GUILayout.Width(150),GUILayout.Height(150));
         GUILayout.EndVertical();
 
         
-        GUILayout.BeginVertical("formwrapper");
+        GUILayout.BeginVertical();
         GUILayout.Label("Save folder: \"Assets\\\"", EditorStyles.boldLabel);
         saveFolder = EditorGUILayout.TextField(saveFolder ,GUILayout.Width(300));
         this.Repaint();
@@ -68,72 +101,48 @@ public class ModularColorChanger : EditorWindow
 
     }
 
-    public Color colorPicker;
-    List<Color> colors;
-    public string saveFolder = "_ModularTextures";
-    public Texture theTexture;
-    public Texture EditTexture;
-    string originalFileName;
-    string newFileName = "_MHTexture";
-
-
-    Texture2D tex = null;
-
-    public List<ModularColorTile> colorTiles = new List<ModularColorTile>();
-
-    public class ModularColorTile
+    void RunTextureProcess()
     {
-        public string tileName;
-        public Texture texture;
-        public Vector2 startPosition;
-        public Vector2 size;
-        public Color color;
+        ReadTexture();
+        SetAllPixels();
+        TextureWriter();
 
-
-        public ModularColorTile(string theTile, Texture theTexture, Vector2 theStart, Vector2 theSize, Color theColor)
-        {
-            tileName = theTile;
-            texture = theTexture;
-            startPosition = theStart;
-            size = theSize;
-            color = theColor;
-        }
     }
 
-    
-
-    public void LoopThroughTiles()
+    void ReadTexture()
     {
-        foreach (ModularColorTile tile in colorTiles)
-        {            
-            CreateTexture(tile.color, (int)tile.size.x, (int)tile.size.y, (int)tile.startPosition.x, (int)tile.startPosition.y);
-        }
-    }
-
-public void SetColour()
-    {
-       // CreateTexture(colorPicker, zoneWidth, zoneHeight);
-    }
-
-    void CreateTexture(Color colorChoice, int zoneWidth, int zoneHeight, int startX, int startY)
-    {
-        
-        Color[] colors = new Color[zoneHeight*zoneWidth];
-        for (int i = 0; i < zoneHeight * zoneWidth; i++)
-        {
-            colors[i] = colorChoice;
-        }
         tex = new Texture2D(2, 2);
         tex = (Texture2D)theTexture;
 
-        tex.SetPixels(startX, startY, zoneWidth, zoneHeight, colors, 0);
+    }
+
+    void SetAllPixels()
+    {
+        foreach (ModularColorTile tile in colorTiles)
+        {
+            Color[] colors = new Color[(int)tile.size.x * (int)tile.size.y];
+            for (int i = 0; i < tile.size.x * tile.size.y; i++)
+            {
+                colors[i] = tile.color;
+            }
+
+
+
+            tex.SetPixels((int)tile.startPosition.x, (int)tile.startPosition.y, (int)tile.size.x, (int)tile.size.y, colors, 0);
+        }
+    }
+
+
+
+    void TextureWriter()
+    {
         var bytes = tex.EncodeToPNG();
         //If the folder isn't there, we make it
         if (!Directory.Exists($"Assets/{saveFolder}"))
         {
             Directory.CreateDirectory($"Assets/{saveFolder}");
         }
-        
+
         //We create the full path of folder and file name
         var iconPath = $"Assets/{saveFolder}/{originalFileName}__{newFileName}.png";
         //write the actual file
