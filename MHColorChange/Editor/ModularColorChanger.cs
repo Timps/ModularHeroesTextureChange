@@ -40,10 +40,10 @@ public class ModularColorChanger : EditorWindow
         
         GUILayout.BeginVertical("formwrapper");
         GUILayout.Label("Save folder: \"Assets\\\"", EditorStyles.boldLabel);
-        saveFolder = EditorGUILayout.TextField("_ModularTextures",GUILayout.Width(300));
+        saveFolder = EditorGUILayout.TextField(saveFolder ,GUILayout.Width(300));
         this.Repaint();
         GUILayout.Label("New File suffix - Will be added to end of filename", EditorStyles.boldLabel);
-        newFileName = EditorGUILayout.TextField("_MHTexture", GUILayout.Width(300));
+        newFileName = EditorGUILayout.TextField(newFileName, GUILayout.Width(300));
         this.Repaint();
 
         if (GUILayout.Button("Load Modular Hero Defaults", GUILayout.Width(189), GUILayout.Height(20)))
@@ -66,11 +66,11 @@ public class ModularColorChanger : EditorWindow
 
     public Color colorPicker;
     List<Color> colors;
-    public string saveFolder;
+    public string saveFolder = "_ModularTextures";
     public Texture theTexture;
     public Texture EditTexture;
     string originalFileName;
-    string newFileName;
+    string newFileName = "_MHTexture";
 
 
     Texture2D tex = null;
@@ -125,7 +125,11 @@ public void SetColour()
 
         tex.SetPixels(startX, startY, zoneWidth, zoneHeight, colors, 0);
         var bytes = tex.EncodeToPNG();
-
+        //If the folder isn't there, we make it
+        if (!Directory.Exists($"Assets/{saveFolder}"))
+        {
+            Directory.CreateDirectory(saveFolder);
+        }
         //We create the full path of folder and file name
         var iconPath = $"Assets/{saveFolder}/{originalFileName}__{newFileName}.png";
         //write the actual file
