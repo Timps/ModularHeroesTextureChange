@@ -22,9 +22,13 @@ public class ModularColorChanger : EditorWindow
         GUILayout.Label("Change colours of the Synty Modular Heroes texture for use with other shaders");
         if (GUILayout.Button("Set Colours", GUILayout.Width(290), GUILayout.Height(50)))
         {
+            
             string texturePath = AssetDatabase.GetAssetPath(theTexture);
+            Debug.Log($"{texturePath}");
+            string texturePathWithoutExtension = Path.GetFileNameWithoutExtension(texturePath);
+            Debug.Log($"Without extension : {texturePathWithoutExtension}");
             int pos = texturePath.LastIndexOf("/") + 1;
-            string originalFileName = texturePath.Substring(pos, texturePath.Length - pos);
+            originalFileName = texturePath.Substring(pos, texturePathWithoutExtension.Length - pos);
             string originalFolder = texturePath.Substring(0, pos - 1);
             LoopThroughTiles();
             //Debug.Log(originalFileName);
@@ -101,8 +105,7 @@ public class ModularColorChanger : EditorWindow
     public void LoopThroughTiles()
     {
         foreach (ModularColorTile tile in colorTiles)
-        {
-            
+        {            
             CreateTexture(tile.color, (int)tile.size.x, (int)tile.size.y, (int)tile.startPosition.x, (int)tile.startPosition.y);
         }
     }
@@ -130,6 +133,7 @@ public void SetColour()
         {
             Directory.CreateDirectory($"Assets/{saveFolder}");
         }
+        
         //We create the full path of folder and file name
         var iconPath = $"Assets/{saveFolder}/{originalFileName}__{newFileName}.png";
         //write the actual file
