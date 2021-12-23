@@ -128,7 +128,7 @@ public void SetColour()
         //If the folder isn't there, we make it
         if (!Directory.Exists($"Assets/{saveFolder}"))
         {
-            Directory.CreateDirectory(saveFolder);
+            Directory.CreateDirectory($"Assets/{saveFolder}");
         }
         //We create the full path of folder and file name
         var iconPath = $"Assets/{saveFolder}/{originalFileName}__{newFileName}.png";
