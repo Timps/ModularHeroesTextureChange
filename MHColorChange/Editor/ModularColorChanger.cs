@@ -103,10 +103,15 @@ public class ModularColorChange : EditorWindow
         newFileName = EditorGUILayout.TextField(newFileName, GUILayout.Width(300));
         this.Repaint();
 
-        if (GUILayout.Button("Load Modular Hero Defaults", GUILayout.Width(189), GUILayout.Height(20)))
+        if (GUILayout.Button("Load Synty Modular Hero Defaults", GUILayout.Width(189), GUILayout.Height(20)))
         {
             MHSampleData();
         }
+        if (GUILayout.Button("Load Polytope Hero Defaults", GUILayout.Width(189), GUILayout.Height(20)))
+        {
+            PolytopeSampleData();
+        }
+
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
 
@@ -189,6 +194,29 @@ public class ModularColorChange : EditorWindow
         colorTiles.Add(new ModularColorTile("Body art", EditTexture, new Vector2(464, 265), new Vector2(49, 139), new Color(0.2f, 0.7f, 0.5f)));
         colorTiles.Add(new ModularColorTile("Eyes", EditTexture, new Vector2(0, 0), new Vector2(96, 22), new Color(0.1f, 0.3f, 0.5f)));
 
+    }
+
+    void PolytopeSampleData()
+    {
+        colorTiles.Clear();
+        colorTiles.Add(new ModularColorTile("Skin Color", EditTexture, new Vector2(0, 0), new Vector2(16, 16), new Color(1f, 0.8f, 0.7f)));
+        colorTiles.Add(new ModularColorTile("Hair Color", EditTexture, new Vector2(16, 0), new Vector2(16, 16), new Color(0f, 0f, 0f)));
+        colorTiles.Add(new ModularColorTile("Eyes Color", EditTexture, new Vector2(32, 0), new Vector2(16, 16), new Color(0, 1f, 0.2f)));
+        colorTiles.Add(new ModularColorTile("Sclera Color", EditTexture, new Vector2(0, 16), new Vector2(16, 16), new Color(1f, 1f, 1f)));
+        colorTiles.Add(new ModularColorTile("Lips Color", EditTexture, new Vector2(16, 16), new Vector2(16, 16), new Color(0.9f, 0.7f, 0.8f)));
+        colorTiles.Add(new ModularColorTile("Scars Color", EditTexture, new Vector2(32, 16), new Vector2(16, 16), new Color(0, 0, 0)));
+        colorTiles.Add(new ModularColorTile("Metal 1 Color", EditTexture, new Vector2(240, 32), new Vector2(16, 64), new Color(0.2f, 0.2f, 0.2f)));
+        colorTiles.Add(new ModularColorTile("Metal 2 Color", EditTexture, new Vector2(240, 96), new Vector2(16, 64), new Color(1f, 0.8f, 0.1f)));
+        colorTiles.Add(new ModularColorTile("Metal 3 Color", EditTexture, new Vector2(240, 160), new Vector2(16, 64), new Color(0.8f, 0.8f, 0.8f)));
+        colorTiles.Add(new ModularColorTile("Leather 1 Color", EditTexture, new Vector2(64, 0), new Vector2(64, 16), new Color(0.7f, 0.3f, 0.1f)));
+        colorTiles.Add(new ModularColorTile("Leather 2 Color", EditTexture, new Vector2(128, 0), new Vector2(64, 16), new Color(0, 0, 0)));
+        colorTiles.Add(new ModularColorTile("Leather 3 Color", EditTexture, new Vector2(192, 0), new Vector2(64, 16), new Color(0.8f, 0.2f, 0.2f)));
+        colorTiles.Add(new ModularColorTile("Cloth 1 Color", EditTexture, new Vector2(0, 32), new Vector2(16, 64), new Color(0.8f, 0.3f, 0.3f)));
+        colorTiles.Add(new ModularColorTile("Cloth 2 Color", EditTexture, new Vector2(0, 96), new Vector2(16, 64), new Color(0.3f, 0.8f, 0.4f)));
+        colorTiles.Add(new ModularColorTile("Cloth 3 Color", EditTexture, new Vector2(0, 160), new Vector2(16, 64), new Color(0.5f, 0.2f, 0.7f)));
+        colorTiles.Add(new ModularColorTile("Feathers 1 Color", EditTexture, new Vector2(240, 224), new Vector2(16, 16), new Color(.4f, 0.3f, 0.9f)));
+        colorTiles.Add(new ModularColorTile("Feathers 2 Color", EditTexture, new Vector2(240, 240), new Vector2(16, 16), new Color(0.5f, 0.5f, 0.5f)));
+        //colorTiles.Add(new ModularColorTile("Coat of arms Color", EditTexture, new Vector2(0, 0), new Vector2(0, 0), new Color(0, 0, 0))); //This is an area in the texture that has to take in another texture
     }
 }
 
